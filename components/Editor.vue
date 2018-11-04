@@ -1,6 +1,5 @@
 <template>
   <div>
-    <div v-html="codeInStyleTag"></div>
     <div class="wedding-editor" ref="editor">
       <!-- 日期 -->
       <p class="code">Last login: <span>{{ startDate }}</span> on ttys001</p>
@@ -8,93 +7,77 @@
       <pre>
         <code v-html="highlightedCode"></code>
       </pre>
-      <Executions/>
-      <Barrage/>
-      <Invitation/>
     </div>
   </div>
 </template>
 
 <script>
   import "babel-polyfill"
-  import { Promise } from 'es6-promise'
   import Prism from 'prismjs'
   import 'prismjs/themes/prism-okaidia.css'
-
-  import Executions from './Executions'
-  import Barrage from './Barrage'
-  import Invitation from './Invitation'
-
+  import '../utils/raf'
   import data from '../mock/data'
-  import '../../utils/raf'
+
+  // import Executions from './Executions'
+  // import Barrage from './Barrage'
+  // import Invitation from './Invitation'
 
   export default {
     props: [],
     name: 'Editor',
-    components: { Executions, Barrage, Invitation },
+    // components: { Executions, Barrage, Invitation },
     created() {
-      this.startDate = (new Date()).toDateString();
-      this.progressivelyExecute()
+      this.startDate = (new Date()).toDateString()
     },
-    updated(){
-      this.$refs.editor.scrollTop = 100000;
+    updated() {
+      // 保持页面一直滚到最下面
+      this.$refs.editor.scrollTop = 100000
     },
     computed: {
-      highlightedCode: function () {
-        return Prism.highlight(this.currentCode, Prism.languages.javascript)+'<span style="opacity:'+this.isCursorVisible+'"> ▍</span>';
-      },
-      codeVisible0: function () {
-        return this.codeVisible['initiate']
-      },
-      codeVisible1: function () {
-        return this.codeVisible['decompress']
-      },
-      codeInStyleTag: function () {
-        return `<style>${this.animationStyle}</style>`
+      highlightedCode () {
+        const code = Prism.highlight(
+            this.currentCode,
+            Prism.languages.javascript
+          )
+        const codeWithCursor = `${code}<span style="opacity:${this.isCursorVisible}"> ▍</span>`
+        return codeWithCursor
       }
     },
     methods: {
       // 代码输入
       progressivelyTyping() {
         return new Promise((resolve, reject) => {
-          let count = 0, typingCount = 0, typing;
-          let step = (timestamp) => {
-            let randomNumber = Math.round(Math.random()*6);
-            if(count%2===0&&randomNumber%4===0){
-              this.currentCode = this.code.substring(0,typingCount);
-              typingCount++;
+          let count = 0, typingCount = 0, typing
+          // 写代码每一帧的函数
+          let step = timestamp => {
+            let randomNumber = Math.round(Math.random() * 6)
+            // 摸你打字的随机速度
+            if(count % 2 === 0 && randomNumber % 4 === 0){
+              this.currentCode = this.code.substring(0, typingCount)
+              typingCount++
             }
-            if(count%24===0){
-              this.isCursorVisible = this.isCursorVisible===0?1:0;
+            // 大约每 24 帧光标闪动一次
+            if(count % 24 === 0){
+              this.isCursorVisible = this.isCursorVisible === 0 ? 1 : 0
             }
-            count++;
+            count++
             if (typingCount <= this.code.length) {
-              typing = requestAnimationFrame(step);
-            }else{
-              resolve();
-              cancelAnimationFrame(typing);
+              typing = requestAnimationFrame(step)
+            } else {
+              resolve()
+              cancelAnimationFrame(typing)
             }
           }
-          typing = requestAnimationFrame(step);
-        });
+          typing = requestAnimationFrame(step)
+        })
       }
     },
-    data(){
+    data() {
       return {
         startDate: '',
         code: data.code,
-        barrages: data.barrages,
-        animationStyle:'',
-        barrageData:false,
         currentCode: '',
-        isCursorVisible: 0,
-        isFinished: false,
-        isOpening: false,
-        progressBarText: '',
-        isProcessed: false,
-        wish: '',
-        initialOffset: 0,
-        executions: data.executions
+        isCursorVisible: 0
       }
     }
   }
@@ -102,13 +85,6 @@
 </script>
 
 <style lang="less">
-html,
-body{
-  height: 100%;
-}
-.container{
-  width: 100%!important;
-}
 .wedding-editor{
   position: absolute;
   top: 0;

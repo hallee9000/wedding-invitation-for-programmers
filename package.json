@@ -20,5 +20,13 @@
   "bugs": {
     "url": "https://github.com/leadream/wedding-invitation-for-programmers/issues"
   },
-  "homepage": "https://github.com/leadream/wedding-invitation-for-programmers#readme"
+  "homepage": "https://github.com/leadream/wedding-invitation-for-programmers#readme",
+  "dependencies": {
+    "babel-polyfill": "^6.26.0",
+    "prismjs": "^1.15.0"
+  },
+  "devDependencies": {
+    "less": "^3.8.1",
+    "less-loader": "^4.1.0"
+  }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="container wedding">
+  <div class="wedding">
     <header class="wedding-header">
         <a href="javascript:;"></a>
         <a href="javascript:;" class="minimum"></a>
@@ -23,9 +23,14 @@
 </script>
 
 <style lang="less">
+html,
+body{
+  height: 100%;
+}
 .wedding{
   position: relative;
   max-width: 568px!important;
+  height: 100%;
   min-height: 100%;
   background: #2B2B48;
   perspective: 500px;

@@ -1,5 +1,6 @@
 <template>
   <div class="wedding-barrage" ref="barrage" :style="{opacity:barrageData?1:0}">
+    <div v-html="codeInStyleTag"></div>
     <p class="code barrage-0" ref="barrageFirst" :style="{transform:'translate('+initialOffset+'px)',top:'10px'}">
       <span class="mine">{{ wish }}</span>
       <span v-for="(item, index) in filterBarrage(barrageData,0)" :key="index">{{ item }}</span>
@@ -22,6 +23,17 @@
   import '../../utils/raf'
 
   export default {
+    data(){
+      return {
+        barrages: data.barrages,
+        animationStyle:''
+      }
+    },
+    computed: {
+      codeInStyleTag: function () {
+        return `<style>${this.animationStyle}</style>`
+      }
+    },
     methods: {
       // 获取弹幕
       getBarrage(){

@@ -69,6 +69,9 @@
           progressing = requestAnimationFrame(step);
         });
       }
+    },
+    created () {
+      this.progressivelyExecute()
     }
   }
 </script>
