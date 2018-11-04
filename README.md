@@ -1,14 +1,29 @@
-# 程序员的婚礼邀请函
-这是我之前给自己准备的婚礼邀请函，但一直到现在也没用上。最近正好有空，把代码整理了一下开源了，给各位需要的程序员小伙伴。当然，如果你不想自己折腾可以直接使用我这个在线版。
+# wedding-invitation-for-programmers
 
-# 在线体验
-创建地址：lab.juuust.com/a/wedding/37oomo3qmxa9m28oeiw2fncwm6no
+## Project setup
+```
+yarn install
+```
 
-手机预览：
+### Compiles and hot-reloads for development
+```
+yarn run serve
+```
 
-# 安装
+### Compiles and minifies for production
+```
+yarn run build
+```
 
-# 使用说明
-创建 `.env` 文件，在里面写上接口地址，不写的话就是 mock 数据。
+### Run your tests
+```
+yarn run test
+```
 
-# LICENSE
+### Lints and fixes files
+```
+yarn run lint
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).

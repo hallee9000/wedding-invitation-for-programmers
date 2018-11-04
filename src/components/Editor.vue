@@ -7,27 +7,28 @@
       <pre>
         <code v-html="highlightedCode"></code>
       </pre>
+      <Executions/>
     </div>
   </div>
 </template>
 
 <script>
-  import "babel-polyfill"
   import Prism from 'prismjs'
   import 'prismjs/themes/prism-okaidia.css'
   import '../utils/raf'
   import data from '../mock/data'
 
-  // import Executions from './Executions'
+  import Executions from './Executions'
   // import Barrage from './Barrage'
   // import Invitation from './Invitation'
 
   export default {
     props: [],
     name: 'Editor',
-    // components: { Executions, Barrage, Invitation },
+    components: { Executions },
     created() {
       this.startDate = (new Date()).toDateString()
+      this.progressivelyTyping()
     },
     updated() {
       // 保持页面一直滚到最下面
@@ -46,10 +47,10 @@
     methods: {
       // 代码输入
       progressivelyTyping() {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
           let count = 0, typingCount = 0, typing
           // 写代码每一帧的函数
-          let step = timestamp => {
+          let step = () => {
             let randomNumber = Math.round(Math.random() * 6)
             // 摸你打字的随机速度
             if(count % 2 === 0 && randomNumber % 4 === 0){
@@ -77,7 +78,7 @@
         startDate: '',
         code: data.code,
         currentCode: '',
-        isCursorVisible: 0
+        isCursorVisible: 1
       }
     }
   }
@@ -102,7 +103,6 @@
   -webkit-transition: all 1.6s cubic-bezier(0.4, 0, 1, 1);
   pre{
     margin: 0;
-    margin-top: -25px;
     white-space: pre-wrap;
     code{
       white-space: pre-wrap;

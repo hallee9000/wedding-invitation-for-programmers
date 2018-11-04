@@ -3,6 +3,6 @@ import Wedding from './Wedding.vue'
 
 /* eslint-disable no-new */
 new Vue({
-  el: '#wedding',
+  el: '#app',
   render: h => h(Wedding)
 })

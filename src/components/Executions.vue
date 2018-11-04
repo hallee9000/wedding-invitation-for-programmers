@@ -1,7 +1,7 @@
 <template>
   <div>
     <!--执行命令-->
-    <p class="code" v-for="(execution, key) in executions" :key="key" v-show="execution.visible">
+    <p class="code" v-for="(execution, index) in executions" :key="index" v-show="execution.visible">
       <span class="addon">~</span>
       [<span class="time">{{ execution.time }}</span>]<span class="task">{{ execution.name }}</span> <span class="duration">{{ execution.duration }} ms</span>
     </p>
@@ -17,11 +17,17 @@
   import data from '../mock/data'
   export default {
     props: [],
+    data () {
+      return {
+        executions: data.executions,
+        isProcessed: false,
+        progressBarText: ''
+      }
+    },
     name: 'Executions',
     methods: {
       // 执行命令
       progressivelyExecute: async function () {
-        await this.progressivelyTyping()
         await this.progressivelyRun('initiate')
         await this.progressivelyRun('decompress')
         await this.progressivelyRun('assemble')
@@ -33,7 +39,7 @@
       },
       // 逐条执行命令
       progressivelyRun(key,customDuration) {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
           let now = new Date(),
               duration = customDuration?customDuration:Math.random()*50+250,
           showCode = () => {
@@ -47,7 +53,7 @@
       },
       // 显示进度条
       successProcessing(duration){
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
           let start = null, progressing, progressingCount = 0;
           this.isProcessed = true;
           let step = (timestamp) => {
@@ -55,7 +61,7 @@
               if (start === null) start = timestamp;
               timeGap = timestamp - start;
               if(progressingCount%3===0){
-                this.progressBarText+='██████░░░░░░░░';
+                this.progressBarText+='#-';
               }
               progressingCount++;
               if (timeGap < duration) {

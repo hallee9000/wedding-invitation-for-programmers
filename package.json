@@ -1,32 +1,49 @@
 {
   "name": "wedding-invitation-for-programmers",
-  "version": "1.0.0",
-  "description": "程序猿的婚礼邀请函。",
-  "main": "main.js",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/leadream/wedding-invitation-for-programmers.git"
-  },
-  "keywords": [
-    "wedding",
-    "programmer",
-    "coding"
-  ],
-  "author": "Jun",
-  "license": "GPL-3.0",
-  "bugs": {
-    "url": "https://github.com/leadream/wedding-invitation-for-programmers/issues"
-  },
-  "homepage": "https://github.com/leadream/wedding-invitation-for-programmers#readme",
   "dependencies": {
-    "babel-polyfill": "^6.26.0",
-    "prismjs": "^1.15.0"
+    "prismjs": "^1.15.0",
+    "vue": "^2.5.17"
   },
   "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.1.0",
+    "@vue/cli-plugin-eslint": "^3.1.0",
+    "@vue/cli-service": "^3.1.0",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.8.0",
+    "eslint-plugin-vue": "^5.0.0-0",
     "less": "^3.8.1",
-    "less-loader": "^4.1.0"
-  }
+    "less-loader": "^4.1.0",
+    "vue-template-compiler": "^2.5.17"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "rules": {},
+    "parserOptions": {
+      "parser": "babel-eslint"
+    }
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
 }
