@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Wedding from './components/Wedding.vue'
+import Wedding from './Wedding.vue'
 
 /* eslint-disable no-new */
 new Vue({
