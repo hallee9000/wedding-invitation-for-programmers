@@ -5,7 +5,7 @@
 
 ![](./invitation.jpg)
 
-在线体验：https://lab/juuust.com/a/wedding
+在线体验：https://lab.juuust.com/a/wedding
 
 ## 开发
 clone 到本地之后，先安装所有依赖。
