@@ -42,9 +42,8 @@ Utils.generateInvitation(😆,🤗);
     duration: 0,
     visible: false
   }, {
-    name:'成功',
+    name:'编译中...',
     time: '',
-    duration: 0,
     visible: false
   }],
   barrages: [

@@ -1,10 +1,5 @@
 <template>
   <div class="wedding">
-    <header class="wedding-header">
-        <a href="javascript:;"></a>
-        <a href="javascript:;" class="minimum"></a>
-        <a href="javascript:;" class="maximum"></a>
-    </header>
     <Editor/>
   </div>
 </template>
@@ -36,27 +31,5 @@ body{
   margin: 0 auto;
   background: #2B2B48;
   perspective: 500px;
-  .wedding-header{
-    position: relative;
-    z-index: 3;
-    padding: 12px;
-    overflow: hidden;
-    background: #2B2B48;
-    >a{
-      float: left;
-      display: block;
-      width: 16px;
-      height: 16px;
-      margin-right: 5px;
-      border-radius: 8px;
-      background: #FC615D;
-      &.minimum{
-        background: #FDBC40;
-      }
-      &.maximum{
-        background: #34C84A;
-      }
-    }
-  }
 }
 </style>

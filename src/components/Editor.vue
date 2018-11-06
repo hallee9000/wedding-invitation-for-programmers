@@ -1,14 +1,19 @@
 <template>
-  <div>
-    <div class="wedding-editor" ref="editor">
-      <!-- 日期 -->
-      <p class="code">Last login: <span>{{ startDate }}</span> on ttys001</p>
-      <!--代码编辑区-->
-      <pre>
-        <code v-html="highlightedCode"></code>
-      </pre>
-      <Executions/>
-    </div>
+  <div class="wedding-editor" ref="editor">
+    <header class="editor-header">
+        <a href="javascript:;"></a>
+        <a href="javascript:;" class="minimum"></a>
+        <a href="javascript:;" class="maximum"></a>
+    </header>
+    <!-- 日期 -->
+    <p class="code">Last login: <span>{{ startDate }}</span> on ttys001</p>
+    <!--代码编辑区-->
+    <pre>
+      <code v-html="highlightedCode"></code>
+    </pre>
+    <Executions :canExecute="canExecute" @onUpdating="scrollToBottom" @onFinish="canOpen = true"/>
+    <invitation :canOpen="canOpen" @sendBarrage="onAfterSending"/>
+    <Barrage :wish="wish" :canStart="canStart"/>
   </div>
 </template>
 
@@ -19,20 +24,30 @@
   import data from '../mock/data'
 
   import Executions from './Executions'
-  // import Barrage from './Barrage'
-  // import Invitation from './Invitation'
+  import Invitation from './Invitation'
+  import Barrage from './Barrage'
 
   export default {
-    props: [],
     name: 'Editor',
-    components: { Executions },
+    components: { Executions, Invitation, Barrage },
+    data() {
+      return {
+        startDate: '',
+        code: data.code,
+        currentCode: '',
+        isCursorVisible: 1,
+        canExecute: false,
+        canOpen: false,
+        wish: '',
+        canStart: false
+      }
+    },
     created() {
       this.startDate = (new Date()).toDateString()
       this.progressivelyTyping()
     },
     updated() {
-      // 保持页面一直滚到最下面
-      this.$refs.editor.scrollTop = 100000
+      this.scrollToBottom()
     },
     computed: {
       highlightedCode () {
@@ -45,6 +60,10 @@
       }
     },
     methods: {
+      scrollToBottom() {
+        // 保持页面一直滚到最下面
+        this.$refs.editor.scrollTop = 100000
+      },
       // 代码输入
       progressivelyTyping() {
         return new Promise((resolve) => {
@@ -66,23 +85,23 @@
               typing = requestAnimationFrame(step)
             } else {
               resolve()
+              this.canExecute = true
               cancelAnimationFrame(typing)
             }
           }
           typing = requestAnimationFrame(step)
         })
-      }
-    },
-    data() {
-      return {
-        startDate: '',
-        code: data.code,
-        currentCode: '',
-        isCursorVisible: 1
+      },
+      // 发送弹幕之后
+      onAfterSending(wish) {
+        this.wish = wish
+        this.canOpen = false
+        setTimeout(() => {
+          this.canStart = true
+        }, 800)
       }
     }
   }
-
 </script>
 
 <style lang="less">
@@ -101,6 +120,39 @@
   -webkit-transform-origin: 0 0;
   transition: all 1.6s cubic-bezier(0.4, 0, 1, 1);
   -webkit-transition: all 1.6s cubic-bezier(0.4, 0, 1, 1);
+  .editor-header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 12px;
+    overflow: hidden;
+    background: #2B2B48;
+    z-index: 3;
+    >a{
+      float: left;
+      display: block;
+      width: 16px;
+      height: 16px;
+      margin-right: 5px;
+      border-radius: 8px;
+      background: #FC615D;
+      &.minimum{
+        background: #FDBC40;
+      }
+      &.maximum{
+        background: #34C84A;
+      }
+    }
+  }
+  p.code{
+    margin: 0;
+    color: #BBB;
+    line-height: 1.2;
+    font-family: 'Roboto Mono', 'Menlo', 'Monaco', Courier, monospace !important;
+    font-weight: 500 !important;
+    font-size: 16px!important;
+  }
   pre{
     margin: 0;
     white-space: pre-wrap;
@@ -115,20 +167,6 @@
       font-weight: 500 !important;
       background: transparent;
     }
-  }
-  p.code{
-    margin: 0;
-    color: #BBB;
-    line-height: 1.2;
-    font-family: 'Roboto Mono', 'Menlo', 'Monaco', Courier, monospace !important;
-    font-weight: 500 !important;
-    font-size: 16px!important;
-    .addon{
-      color: #68FCFB;
-    }
-    .time{ color: #666; }
-    .task{ color: #009AB2; }
-    .duration{ color: #BF36B7; }
   }
 }
 </style>

@@ -1,20 +1,29 @@
 <template>
-  <div class="wedding-invitation" :class="{ 'invitation-bounce':isFinished }">
+  <div class="wedding-invitation" :class="{ 'invitation-bounce':canOpen }">
     <div class="invitation-container" :class="{ 'invitation-down':isOpening }">
       <div class="invitation-cover">
         <div class="cover-content" :class="{'invitation-up':isOpening}">
           <div class="content-inside">
-            <img class="content-inside-photo" src="/static/image/a/wedding/photo.jpg">
+            <img class="content-inside-photo" src="../images/photo.jpg">
             <p>我们结婚啦！</p>
             <p><b>Jun & undefined</b></p>
             <p>时间：invalid date value</p>
             <p>地点：<b>location can not be found</b></p>
-            <input class="content-inside-input" placeholder="轻触写下祝福，按回车发送"  @keyup.enter="getBarrage" v-model="wish" ref="wishInput">
+            <input
+              class="content-inside-input"
+              placeholder="轻触写下祝福，按回车发送" 
+              @keyup.enter="sendBarrage"
+              @focus="isFocused = true"
+              @blur="isFocused = false, hasEntered = false"
+              v-model="wish"
+              ref="wishInput"
+            >
+            <p v-if="!wish && isFocused && hasEntered">请输入祝福哦</p>
           </div>
         </div>
         <div class="cover-inside-left" :class="{'opening':isOpening}"></div>
         <div class="cover-inside-right" :class="{'opening':isOpening}"></div>
-        <img class="cover-inside-seal" src="/static/image/a/wedding/seal.png" @click="openInvitation" :class="{'invitation-flight':isOpening}">
+        <img class="cover-inside-seal" src="../images/seal.png" @click="openInvitation" :class="{'invitation-flight':isOpening}">
       </div>
     </div>
   </div>
@@ -22,10 +31,33 @@
 
 <script>
 export default {
+  props: ['canOpen'],
+  data() {
+    return {
+      isOpening: false,
+      wish: '',
+      isFocused: false,
+      hasEntered: false
+    }
+  },
   methods: {
     // 打开邀请函
     openInvitation(){
-      this.isOpening = true;
+      this.isOpening = true
+    },
+    // 发送弹幕
+    sendBarrage(){
+      this.$nextTick(() => {
+        this.hasEntered = true
+        if (!this.wish) {
+          return
+        }
+        this.isOpening = false
+        this.$refs.wishInput.blur()
+        setTimeout(() => {
+          this.$emit('sendBarrage', this.wish)
+        }, 660)
+      })
     }
   }
 }
@@ -33,19 +65,19 @@ export default {
 
 <style lang="less">
   .wedding-invitation{
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    padding: 30px;
+    padding: 30px 20px;
     padding-top: 60px;
     z-index: 4;
     transform: scale(0.05);
     -webkit-transform: scale(0.05);
     opacity: 0;
-    transition: all 0.8s cubic-bezier(.26,1.84,.39,.61);
-    -webkit-transition: all 0.8s cubic-bezier(.26,1.84,.39,.61);
+    transition: transform 0.8s cubic-bezier(.26,1.84,.39,.61), opacity 0.5s linear;
+    -webkit-transition: -webkit-transform 0.8s cubic-bezier(.26,1.84,.39,.61), opacity 0.5s linear;
     background-size: 100%;
     overflow: hidden;
     &.invitation-bounce{
@@ -88,15 +120,16 @@ export default {
           }
           .content-inside{
             height: 100%;
-            padding: 10px;
+            padding: 20px;
             color: #a9895d;
             background-color: #FFF1DE;
             text-align: center;
             overflow: auto;
             .content-inside-photo{
-              border: 1px solid #f7debb;
-              margin-top: 10px;
+              width: 100%;
+              margin-bottom: 10px;
               padding: 5px;
+              border: 1px solid #f7debb;
             }
             p{
               margin-top: 0;
@@ -132,10 +165,6 @@ export default {
           -webkit-transition: -webkit-transform 0.5s;
           transform-origin: 0 50%;
           -webkit-transform-origin: 0 50%;
-          background-image: url(../image/a/wedding/invite.png);
-          background-size: 120%;
-          background-repeat: no-repeat;
-          background-position: 55% -3%;
           &.opening{
             transform: rotate3d(0,1,0,-140deg);
             -webkit-transform: rotate3d(0,1,0,-140deg);
