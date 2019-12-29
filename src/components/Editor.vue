@@ -11,8 +11,19 @@
     <pre>
       <code v-html="highlightedCode"></code>
     </pre>
+    <!-- 打开邀请函 -->
+    <div
+      class="editor-open"
+      v-if="(canStart || hasClosed) && !canOpen"
+      @click="canOpen = true"
+    >
+      <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+        <line x1="9" y1="3" x2="9" y2="21"></line>
+      </svg>
+    </div>
     <Executions :canExecute="canExecute" @onUpdating="scrollToBottom" @onFinish="canOpen = true"/>
-    <invitation :canOpen="canOpen" @sendBarrage="onAfterSending"/>
+    <invitation :canOpen="canOpen" @onClose="canOpen = false, hasClosed = true" @sendBarrage="onAfterSending"/>
     <Barrage :wish="wish" :canStart="canStart"/>
   </div>
 </template>
@@ -39,6 +50,7 @@
         canExecute: false,
         canOpen: false,
         wish: '',
+        hasClosed: false,
         canStart: false
       }
     },
@@ -167,6 +179,21 @@
       font-weight: 500 !important;
       background: transparent;
     }
+  }
+  .editor-open{
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    width: 40px;
+    height: 40px;
+    padding: 6px;
+    border-radius: 20px;
+    text-align: center;
+    line-height: 18px;
+    border: 5px solid #ffd69b;
+    color: #a9895d;
+    background: #FFF1DE;
+    z-index: 1000;
   }
 }
 </style>

@@ -9,16 +9,21 @@
             <p><b>Jun & undefined</b></p>
             <p>时间：invalid date value</p>
             <p>地点：<b>location can not be found</b></p>
-            <input
-              class="content-inside-input"
-              placeholder="轻触写下祝福，按回车发送" 
-              @keyup.enter="sendBarrage"
-              @focus="isFocused = true"
-              @blur="isFocused = false, hasEntered = false"
-              v-model="wish"
-              ref="wishInput"
-            >
-            <p v-if="!wish && isFocused && hasEntered">请输入祝福哦</p>
+            <div class="content-inside-bless">
+              <input
+                placeholder="写下你的祝福" 
+                @keyup.enter="sendBarrage"
+                @focus="isFocused = true"
+                @blur="isFocused = false, hasEntered = false"
+                v-model="wish"
+                ref="wishInput"
+              >
+              <p v-if="!wish && isFocused && hasEntered">请输入祝福哦</p>
+              <div>
+                <button @click="sendBarrage">发送祝福弹幕</button>
+                <button @click="closeInvitation">关闭</button>
+              </div>
+            </div>
           </div>
         </div>
         <div class="cover-inside-left" :class="{'opening':isOpening}"></div>
@@ -44,6 +49,12 @@ export default {
     // 打开邀请函
     openInvitation(){
       this.isOpening = true
+    },
+    closeInvitation () {
+      this.isOpening = false
+      setTimeout(() => {
+        this.$emit('onClose')
+      }, 660)
     },
     // 发送弹幕
     sendBarrage(){
@@ -135,19 +146,44 @@ export default {
               margin-top: 0;
               margin-bottom: 5px;
             }
-            .content-inside-input{
-              width: 100%;
-              height: 35px;
-              margin-top: 10px;
-              outline: none;
-              border: none;
-              border-bottom: 1px solid #f7debb;
-              color: #a9895d;
-              background: transparent;
-              &::-webkit-input-placeholder { color: #E8D1B1;font-size: 12px; }
-              &::-moz-placeholder { color: #E8D1B1;font-size: 12px; }
-              &:-ms-input-placeholder { color: #E8D1B1;font-size: 12px; }
-              &:-moz-placeholder { color: #E8D1B1;font-size: 12px; }
+            .content-inside-bless{
+              input{
+                width: 100%;
+                height: 35px;
+                margin-bottom: 10px;
+                outline: none;
+                border: none;
+                border-bottom: 1px solid #f7debb;
+                color: #a9895d;
+                background: transparent;
+                &::-webkit-input-placeholder { color: #E8D1B1;font-size: 12px; }
+                &::-moz-placeholder { color: #E8D1B1;font-size: 12px; }
+                &:-ms-input-placeholder { color: #E8D1B1;font-size: 12px; }
+                &:-moz-placeholder { color: #E8D1B1;font-size: 12px; }
+              }
+              >div{
+                display: flex;
+                button{
+                  width: 100%;
+                  height: 35px;
+                  color: #a9895d;
+                  background: #f7debb;
+                  border: none;
+                  outline: none;
+                  &:disabled{
+                    opacity: 0.8;
+                  }
+                  &:first-child{
+                    margin-right: 10px;
+                    flex: 1;
+                  }
+                  &:last-child{
+                    width: 60px;
+                    border: 1px solid #f7debb;
+                    background: transparent;
+                  }
+                }
+              }
             }
           }
         }
