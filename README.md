@@ -8,6 +8,9 @@
 在线体验：https://lab.juuust.com/a/wedding
 
 ## 开发
+### 前提条件
+你需要安装 Node.js 环境，具备一定的前端知识。
+
 clone 到本地之后，先安装所有依赖。
 ```
 yarn install
