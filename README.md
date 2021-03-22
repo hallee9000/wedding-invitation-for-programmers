@@ -37,5 +37,42 @@ yarn run test
 yarn run lint
 ```
 
+# 后端服务运行
+
+## 编译后端代码(可以直接进行下载)
+编译程序 至Jar 进入 `wedding-invitations-back`文件夹后
+```
+mvn package
+```
+在`/target/wedding-invitations-back-1.0-SNAPSHOT.jar` 获取`wedding-invitations-back-1.0-SNAPSHOT.jar`
+
+## 运行代码
+在 `wedding-invitations-back-1.0-SNAPSHOT.jar`同级目录下
+```
+java -jar wedding-invitations-back-1.0-SNAPSHOT.jar
+```
+在云服务器上不进行退出命令
+```
+nohup java -jar wedding-invitations-back-1.0-SNAPSHOT.jar &
+```
+
+会在执行后生成一个`wedding-leave.txt`的文件.
+
+## URL
+### 添加留言
+http://127.0.0.1:10000/add/{留言内容}
+### 获取留言
+http://127.0.0.1:10000/get/{随机时间戳}
+
+### 前端修改内容
+#### 照片
+![](/src/images/photo.jpg)
+wedding-invitation-for-programmers/src/images/photo.jpg
+
+#### 展示内容(未来有空都会转到服务器上)
+wedding-invitation-for-programmers/src/mock/data.js -> code
+#### 后端调用网址
+wedding-invitation-for-programmers/src/mock/data.js -> url
+
 # LICENSE
 GNU General Public License v3.0

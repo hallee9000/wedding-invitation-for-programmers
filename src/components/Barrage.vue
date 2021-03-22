@@ -19,94 +19,109 @@
 </template>
 
 <script>
-  import data from '../mock/data'
+import data from '../mock/data'
+import axios from "axios";
 
-  export default {
-    props: ['wish', 'canStart'],
-    data(){
-      return {
-        barrages: data.barrages,
-        animationStyle:'',
-        initialOffset: 0
+export default {
+  props: ['wish', 'canStart'],
+  data() {
+    return {
+      barrages: [],
+      animationStyle: '',
+      initialOffset: 0
+    }
+  },
+  computed: {
+    codeInStyleTag: function () {
+      return `<style>${this.animationStyle}</style>`
+    }
+  },
+  watch: {
+    canStart: function (val) {
+      if (val === true) {
+        this.barrageAnimationStart()
       }
-    },
-    computed: {
-      codeInStyleTag: function () {
-        return `<style>${this.animationStyle}</style>`
-      }
-    },
-    watch: {
-      canStart: function (val) {
-        if (val===true) {
-          this.barrageAnimationStart()
-        }
-      }
-    },
-    methods: {
-      // 弹幕动画开始
-      barrageAnimationStart() {
-        let barrageWidth = this.getWidth(this.$refs.barrage)
-        let barrageWidthGroup = [
-              this.getWidth(this.$refs.barrageFirst),
-              this.getWidth(this.$refs.barrageSecond),
-              this.getWidth(this.$refs.barrageThird),
-              this.getWidth(this.$refs.barrageFourth)
-            ]
-        this.initialOffset = barrageWidth + 15
-        barrageWidthGroup.map((item,index) => {
-          this.animationStyle += `
+    }
+  },
+  methods: {
+    // 弹幕动画开始
+    barrageAnimationStart() {
+      let barrageWidth = this.getWidth(this.$refs.barrage)
+      let barrageWidthGroup = [
+        this.getWidth(this.$refs.barrageFirst),
+        this.getWidth(this.$refs.barrageSecond),
+        this.getWidth(this.$refs.barrageThird),
+        this.getWidth(this.$refs.barrageFourth)
+      ]
+      this.initialOffset = barrageWidth + 15
+      barrageWidthGroup.map((item, index) => {
+        this.animationStyle += `
             .barrage-${index}{
-              animation: barrage-${index} ${item/40}s linear infinite;
-              -webkit-animation: barrage-${index} ${item/40}s linear infinite;
+              animation: barrage-${index} ${item / 40}s linear infinite;
+              -webkit-animation: barrage-${index} ${item / 40}s linear infinite;
             }
             @keyframes barrage-${index} {
               from {
-                transform:translate3d(${barrageWidth+15}px,0,0);
-                -webkit-transform:translate3d(${barrageWidth+15}px,0,0);
+                transform:translate3d(${barrageWidth + 15}px,0,0);
+                -webkit-transform:translate3d(${barrageWidth + 15}px,0,0);
               }
               to {
-                transform:translate3d(-${item+15}px,0,0);
-                -webkit-transform:translate3d(-${item+15}px,0,0);
+                transform:translate3d(-${item + 15}px,0,0);
+                -webkit-transform:translate3d(-${item + 15}px,0,0);
               }
             }`
+      })
+    },
+    getWidth(ref) {
+      return window.getComputedStyle(ref, null).width.replace('px', '') - 0
+    },
+    filterBarrage(barrages, remainder) {
+      if (barrages) {
+        return barrages.filter((barrage, index) => {
+          if (index % 4 === remainder) {
+            return barrage
+          }
         })
-      },
-      getWidth(ref) {
-        return window.getComputedStyle(ref,null).width.replace('px','') - 0
-      },
-      filterBarrage(barrages, remainder) {
-        if(barrages){
-          return barrages.filter((barrage, index) => {
-            if(index%4 === remainder){
-              return barrage
-            }
-          })
-        }
       }
-    }
+    },
+    getBarrages() {
+      axios.get(data.url + "/get/" + Date.now()).then(response => {
+        // eslint-disable-next-line no-console
+        console.log(response)
+        this.barrages = response.data
+      })
+    },
+  },
+  mounted() {
+    this.getBarrages();
   }
+}
 </script>
 
 <style lang="less">
-  .wedding-barrage{
-    position: relative;
-    p{
-      position: absolute;
-      padding: 5px 0;
-      white-space:nowrap;
-      transition: all 0.6s linear;
-      -webkit-transition: all 0.6s linear;
-      span{
-        padding: 0 15px;
-        &.mine{
-          color: #e6db74;
-          padding: 4px 6px;
-          border: 1px solid #e6db74;
-        }
+.wedding-barrage {
+  position: relative;
+
+  p {
+    position: absolute;
+    padding: 5px 0;
+    white-space: nowrap;
+    transition: all 0.6s linear;
+    -webkit-transition: all 0.6s linear;
+
+    span {
+      padding: 0 15px;
+
+      &.mine {
+        color: #e6db74;
+        padding: 4px 6px;
+        border: 1px solid #e6db74;
       }
     }
-    .barrage-space{
-      height: 180px;
-    }
   }
+
+  .barrage-space {
+    height: 180px;
+  }
+}
 </style>
