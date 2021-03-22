@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assembly>
+    <id>full</id>
+    <!-- 最终打包成一个用于发布的zip文件 -->
+    <formats>
+        <format>zip</format>
+    </formats>
+
+    <!-- 把依赖jar包打包进Zip压缩文件的lib目录下 -->
+    <dependencySets>
+        <dependencySet>
+            <!--不使用项目的artifact，第三方jar不要解压，打包进zip文件的lib目录-->
+            <useProjectArtifact>false</useProjectArtifact>
+
+            <!-- 第三方jar打包进Zip文件的lib目录下， -->
+            <!-- 注意此目录要与maven-jar-plugin中classpathPrefix指定的目录相同, -->
+            <!-- 不然这些依赖的jar包加载到ClassPath的时候会找不到-->
+            <outputDirectory>lib</outputDirectory>
+
+            <!-- 第三方jar不要解压-->
+            <!--<unpack>false</unpack>-->
+        </dependencySet>
+    </dependencySets>
+
+    <!-- 文件设置，你想把哪些文件包含进去，或者把某些文件排除掉，都是在这里配置-->
+    <fileSets>
+        <!-- 把项目自己编译出来的可执行jar，打包进zip文件的根目录 -->
+        <fileSet>
+            <directory>${project.build.directory}</directory>
+            <outputDirectory></outputDirectory>
+            <includes>
+                <include>*.jar</include>
+            </includes>
+        </fileSet>
+
+        <!--
+        把项目readme说明文档，打包进zip文件根目录下
+        (这里针对目录document/readme.txt文件)
+        ${projet.document.directory}是pom.xml中自己配置的
+         -->
+        <fileSet>
+            <directoryl>${projet.document.directory}</directoryl>
+            <outputDirectory></outputDirectory>
+            <includes>
+                <include>readme.*</include>
+            </includes>
+        </fileSet>
+
+        <!--
+        把项目相关的说明文档(除了readme文档)，
+        打包进zip文件根目录下的document目录
+        (这里针对document/exclode.txt文件)
+        ${project.document.directory}是在pom.xml中自己配置的
+        -->
+        <fileSet>
+            <directory>${project.document.directory}</directory>
+            <outputDirectory>document</outputDirectory>
+            <excludes>
+                <exclude>readme.*</exclude>
+            </excludes>
+        </fileSet>
+
+        <!--
+        把项目的脚本文件目录(src/main/scripts )中的启动脚本文件，
+        打包进zip文件的根目录
+        (这里针对的是src/scripts/execute/include-file.sh文件)
+        ${project.script.execute.directory}
+        -->
+        <fileSet>
+            <directory>${project.script.execute.directory}</directory>
+            <outputDirectory></outputDirectory>
+            <includes>
+                <include>*</include>
+            </includes>
+        </fileSet>
+
+    </fileSets>
+</assembly>

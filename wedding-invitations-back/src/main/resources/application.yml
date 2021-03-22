@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: wedding-invitations-back
+wedding:
+  leave:
+    path: wedding-leave.txt
+server:
+  port: 10000

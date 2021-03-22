@@ -1,0 +1,10 @@
+{
+  "properties": [
+    {
+      "name": "wedding.leave.path",
+      "type": "java.lang.String",
+      "description": "婚礼留言地址",
+      "defaultValue": "wedding-leave.txt"
+    }
+  ]
+}
