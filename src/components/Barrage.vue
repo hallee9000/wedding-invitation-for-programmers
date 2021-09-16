@@ -94,8 +94,6 @@
       position: absolute;
       padding: 5px 0;
       white-space:nowrap;
-      transition: all 0.6s linear;
-      -webkit-transition: all 0.6s linear;
       span{
         padding: 0 15px;
         &.mine{
