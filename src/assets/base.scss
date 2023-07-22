@@ -1,0 +1,70 @@
+*{
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+html,
+body{
+  height: 100%;
+}
+body{
+  margin: 0;
+  line-height: 1.6;
+  color: #333;
+  background-color: #FFF;
+}
+img{
+  max-width:100%;
+}
+a{
+  color: #017CF5;
+  text-decoration: none;
+  transition: color 0.4s;
+  &:hover{
+    color: darken(#017CF5, 20%);
+  }
+}
+ul{
+  margin:0;
+  padding: 0;
+  list-style: none;
+}
+/* 要注意表单元素并不继承父级 font 的问题 */
+body, button, input, select, textarea {
+  font-family: "NotoSans", "NotoSansUI", "PingFang SC", "HiraginoSansGB-W3","Microsoft Yahei","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+}
+table{
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+code{
+  color: #666;
+  background: #FEFEFE;
+  font-family: 'Roboto Mono', 'Menlo', 'Monaco', Courier, monospace !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+}
+.container {
+  @media (min-width: 1200px) {
+    width: 1200px;
+  } 
+}
+.common-container{
+  margin-top: 56px;
+}
+.top-warning{
+  display: none;
+  padding: 20px 0;
+  text-align: center;
+  color: #8A6D3B;
+  background: #FEF7E4;
+}
+.text-left{
+  text-align: left;
+}
+.text-right{
+  text-align: right;
+}

@@ -8,34 +8,32 @@
 在线体验：https://lab.juuust.com/a/wedding
 
 ## 开发
-### 前提条件
-你需要安装 Node.js 环境，具备一定的前端知识。
+本项目基于 [Vite](https://vitejs.dev) 框架，你需要安装 Node.js 环境，并具备一定的前端知识。
 
-clone 到本地之后，先安装所有依赖。
-```
-yarn install
-```
+clone 到本地之后，先安装所有依赖
 
-再打开开发模式，实时调试。
-```
-yarn run serve
+```sh
+npm install
 ```
 
-## 构建
-构建生产版本。
-```
-yarn run build
+再打开开发模式，实时调试
+
+```sh
+npm run dev
 ```
 
-## 测试
-```
-yarn run test
+构建生产版本
+
+```sh
+npm run build
 ```
 
-## Lints and fixes files
+Lint 检查，参见 [ESLint](https://eslint.org/)
+
+```sh
+npm run lint
 ```
-yarn run lint
-```
+
 
 # LICENSE
 GNU General Public License v3.0

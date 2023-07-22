@@ -28,15 +28,15 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
   import Prism from 'prismjs'
   import 'prismjs/themes/prism-okaidia.css'
   import '../utils/raf'
   import data from '../mock/data'
 
-  import Executions from './Executions'
-  import Invitation from './Invitation'
-  import Barrage from './Barrage'
+  import Executions from './Executions.vue'
+  import Invitation from './Invitation.vue'
+  import Barrage from './Barrage.vue'
 
   export default {
     name: 'Editor',
